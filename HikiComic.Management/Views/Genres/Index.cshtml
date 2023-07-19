@@ -1,0 +1,361 @@
+﻿@using HikiComic.ViewModels.Base;
+@{
+    ViewData["Title"] = "Genres";
+}
+
+@section Header{
+    <link href="~/assets/extensions/toastify-js/src/toastify.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/jquery.datatables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+}
+
+<div class="page">
+    <!--Page Title-->
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last mb-2">
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first  d-flex justify-content-end">
+                <nav aria-label="breadcrumb"
+                     class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            @ViewData["Title"]
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Genre Management
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!--Page Content-->
+    <div class="page-content">
+        <section class="section">
+            <div class="card card-page">
+                <div class="card-header">
+                    <div class="d-flex btn-header gap-1">
+                        <input type="text" class="form-control" id="search" placeholder="Search" />
+
+                        <button data-bs-toggle="modal" id="btn-create" data-bs-target="#modal-create" class="btn btn-outline-primary text-nowrap icon-left">
+                            <i class="bi bi-plus-lg"></i>Create Genre
+                        </button>
+
+                        <button data-bs-toggle="modal" data-bs-title="Delete selected lines" id="btn-multiple-delete-genre" disabled data-bs-target="#modal-delete-multiple"
+                                class="btn btn-outline-danger text-nowrap icon-left">
+                            <i class="bi bi-trash"></i>Delete All
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="genresDatatable" class="table table-bordered dt-responsive nowrap" width="100%" cellspacing="0" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th data-orderable="false">
+                                    <input type="checkbox" id="checkbox-all" class="form-check-input bg-secondary" />
+                                </th>
+                                <th>Genre Name</th>
+                                <th>SEO Alias</th>
+                                <th>Summary</th>
+                                <th>Active</th>
+                                <th data-orderable="false">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!--Modal Create Genre-->
+<div class="modal fade text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-create" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <form class="form" method="post" id="form-create-genre">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New Genre Creation</h4>
+                    <button type="button" class="close" id="cancel-create-genre" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="genre-name" class="form-label">Genre Name</label>
+                                <input type="text" id="genre-name" autofocus name="genre-name" class="form-control form-control-lg" placeholder="Genre Name" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="summary" class="form-label">Summary</label>
+                                <textarea id="summary" name="summary" class="form-control form-control-lg wrap-content" placeholder="Summary"
+                                          style="display: block; overflow: hidden auto; resize: none; height: 43px;"></textarea>
+                                
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="genre-seo-summary" class="form-label">SEO Summary</label>
+                                <input type="text" id="genre-seo-summary" name="genre-seo-summary" class="form-control form-control-lg" placeholder="SEO Summary" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="genre-seo-title" class="form-label">SEO Title</label>
+                                <input type="text" id="genre-seo-title" name="genre-seo-title" class="form-control form-control-lg" placeholder="SEO Title" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="submit-create-genre" class="btn btn-primary">Save</button>
+                    <button type="button" id="cancel-create-genre" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Modal Update Genre-->
+<div class="modal fade text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <form class="form" id="form-edit-genre">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Genre</h4>
+                    <button type="button" class="close" id="cancel-edit-genre" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="genre-name" class="form-label">Genre Name</label>
+                                <input type="text" id="genre-name" disabled autofocus name="genre-name" class="form-control form-control-lg" placeholder="Genre Name" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="summary" class="form-label">Summary</label>
+                                <textarea id="summary-update" name="summary" class="form-control form-control-lg wrap-content" placeholder="Summary"
+                                          style="display: block; resize: none; height: 43px;"></textarea>
+                                @**@
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="genre-seo-summary" class="form-label">SEO Summary</label>
+                                <input type="text" id="genre-seo-summary" name="genre-seo-summary" class="form-control form-control-lg" placeholder="SEO Summary" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="genre-seo-title" class="form-label">SEO Title</label>
+                                <input type="text" id="genre-seo-title" name="genre-seo-title" class="form-control form-control-lg" placeholder="SEO Title" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="submit-edit-genre" class="btn btn-primary">Save</button>
+                    <button type="button" id="cancel-edit-genre" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Modal Delete Genre In Line-->
+<div class="modal text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Genre</h5>
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">Are you sure that you want to delete <span id="genre-name-delete"></span>?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submit-delete-genre" class="btn btn-primary">OK</button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <span class="d-none d-sm-block">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Delete Multiple Genre-->
+<div class="modal modal-delete text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-delete-multiple" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete multiple Genres</h5>
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">Are you sure that you want to delete the selected Genres(s)?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="submit-delete-genre-multiple" data-bs-dismiss="modal">
+                    <i class="bi bi-trash d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">OK</span>
+                </button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <i class="bi bi-x d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Restore Genre-->
+<div class="modal text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-restore" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Restore Genre</h5>
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">Are you sure you want to restore <span id="genre-name-restore"></span>?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submit-restore-genre" class="btn btn-primary">OK</button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <span class="d-none d-sm-block">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Information Genre-->
+<div class="modal fade text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-information" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <form class="form" id="form-information-genre">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Information Genre</h4>
+                    <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="genre-name" class="form-label">Genre Name</label>
+                                <label id="genre-name" name="genre-name" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="genre-seo-alias" class="form-label">SEO Alias</label>
+                                <label id="genre-seo-alias" name="genre-seo-alias" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="summary" class="form-label">Summary</label>
+                                <label id="summary" name="summary" class="form-control form-control-lg wrap-content"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="genre-seo-summary" class="form-label">SEO Summary</label>
+                                <label id="genre-seo-summary" name="genre-seo-summary" class="form-control form-control-lg wrap-content"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="genre-seo-title" class="form-label">SEO Title</label>
+                                <label id="genre-seo-title" name="genre-seo-title" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="genre-is-deleted" class="form-label">Active</label>
+                                <label id="genre-is-deleted" name="genre-is-deleted" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        @await Html.PartialAsync("PartialViews/_CreateUpdateUserInfo", new ElementIdViewModel { ElementId = "genre" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" id="submit-information-genre" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Toast-->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 111111111;">
+    <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="alert mb-0 ">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span id="toast-content"></span>
+        </div>
+    </div>
+</div>
+
+@section Footer{
+    <script src="~/assets/extensions/toastify-js/src/toastify.js"></script>
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/datatables/datatables.min.js"></script>
+
+    <script src="~/assets/extensions/datatables/dataTables.select.min.js"></script>
+    <script src="~/assets/extensions/jquery-validate/jquery.validate.min.js"></script>
+
+    <script src="~/assets/js/pages/genres.js"></script>
+}

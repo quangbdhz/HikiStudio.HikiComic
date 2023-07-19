@@ -1,0 +1,357 @@
+﻿@using HikiComic.Management.Extensions;
+@using HikiComic.ViewModels.Genders;
+@using HikiComic.ViewModels.Users;
+
+@model UserViewModel;
+
+@{
+    ViewData["Title"] = "Account Settings";
+    var user = Context.Session.Get<UserSession>("CurrentUser");
+
+    var genders = ViewData["genders"] as List<GenderViewModel>;
+}
+
+@section Header{
+    <link href="~/assets/css/style-upload-file.css" rel="stylesheet" />
+    <link href="~/assets/extensions/toastify-js/src/toastify.css" rel="stylesheet" />
+}
+
+<div class="page">
+    <!--Page Title-->
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb"
+                     class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Home" asp-action="Index">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Profile
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!--Page Content-->
+    <div class="page-content">
+        <section class="section">
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-lg-6 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h4 class="card-title">Information</h4>
+                        </div>
+
+                        <div class="card-body pb-0">
+                            <div class="row mb-1">
+                                <div class="col-md-3">
+                                    <label>Avatar</label>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="d-flex justify-content-center">
+                                    <img id="avatar-account" class="avatar-information" src="@Model.UserImageURL" />
+                                </div>
+
+                                <div class="col-12 d-flex justify-content-center mt-2">
+                                    <a class="mb-2 collapsed" data-bs-target="#exampleModalCenter" style="font-weight: 700" data-bs-toggle="modal" href="#exampleModalCenter">Change Avatar</a>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <p class="font-extrabold mb-0">@Model.Email</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label>Full Name</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <p id="full-name-account" class="font-extrabold mb-0">@Model.FirstName @Model.LastName</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label>Username</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <p class="font-extrabold mb-0">@Model.UserName</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label>Role</label>
+                                </div>
+                                <div class="col-md-9">
+                                    @if (Model.StringRoles != null)
+                                    {
+                                        <p class="font-extrabold mb-0">@String.Join(",", Model.StringRoles)</p>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label>Phone</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <p id="phone-account" class="font-extrabold mb-0">@Model.PhoneNumber</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label>Date of Birth</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <p id="date-of-birth-account" class="font-extrabold mb-0">@Model.DOB?.ToString("dd-MM-yyyy")</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label>Gender</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <p id="gender-account" class="font-extrabold mb-0">@Model.GenderName</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h4 class="card-title">Update Information</h4>
+                        </div>
+
+                        <div class="card-body pb-0">
+                            <div class="mb-2 d-flex align-items-center"
+                                 data-bs-toggle="collapse"
+                                 data-bs-target="#changeNameCollapse"
+                                 role="button"
+                                 aria-expanded="false"
+                                 id="formChangeNameCollapse"
+                                 aria-controls="changeNameCollapse">
+                                <h6 class="mb-0 me-4 text-primary" style="font-size: 18px;">Change Personal Info</h6>
+                                <i class="bi-pencil-square icon-change"></i>
+                            </div>
+                            <div class="row">
+                                <div class="collapse" id="changeNameCollapse">
+                                    <form class="form" id="form-change-name">
+                                        <div class="form-group mandatory">
+                                            <label for="first-name" class="form-label">First Name</label>
+                                            <input type="text"
+                                                   id="first-name"
+                                                   value="@Model.FirstName"
+                                                   class="form-control form-control-lg"
+                                                   placeholder="First Name"
+                                                   name="first-name" />
+                                        </div>
+
+                                        <div class="form-group mandatory">
+                                            <label for="last-name" class="form-label">Last Name</label>
+                                            <input type="text"
+                                                   id="last-name"
+                                                   value="@Model.LastName"
+                                                   class="form-control form-control-lg"
+                                                   placeholder="Last Name"
+                                                   name="last-name" />
+                                        </div>
+
+                                        <div class="form-group mandatory">
+                                            <label for="phone" class="form-label">Phone Number</label>
+                                            <input type="text"
+                                                   value="@Model.PhoneNumber"
+                                                   id="phone"
+                                                   class="form-control form-control-lg"
+                                                   placeholder="Phone Number"
+                                                   name="phone" />
+                                        </div>
+
+                                        <div class="form-group mandatory">
+                                            <label for="date-of-birth" class="form-label">Date of Birth</label>
+
+                                            <input type="date" style="color-scheme: dark" class="form-control form-control-lg" id="date-of-birth"
+                                                   value="@Model.DOB?.ToString("yyyy-MM-dd")" min="1900-01-01" max="2010-01-01" name="date-of-birth" pattern="\d{4}-\d{2}-\d{2}" />
+                                        </div>
+
+                                        <div class="form-group mandatory">
+                                            <label for="gender" class="form-label">Gender</label>
+
+                                            <select class="form-select form-control form-control-lg" id="gender">
+                                                @if(genders != null)
+                                                {
+                                                    @foreach (var item in genders)
+                                                    {
+                                                        if(item.GenderName == Model.GenderName)
+                                                        {
+                                                            <option value="@item.GenderId" selected>@item.GenderName</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.GenderId" >@item.GenderName</option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 d-flex justify-content-end">
+                                                <button type="submit" id="save-form-change-name" disabled class="btn btn-primary me-1 mb-1">Save</button>
+                                                <button type="reset" id="cancel-form-change-name" class="btn btn-secondary me-1 mb-1"
+                                                        data-bs-toggle="collapse" data-bs-target="#changeNameCollapse" aria-expanded="true"
+                                                        aria-controls="changeNameCollapse">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="mb-2 d-flex align-items-center"
+                                 data-bs-toggle="collapse"
+                                 data-bs-target="#changePasswordCollapse"
+                                 role="button"
+                                 id="formChangePasswordCollapse"
+                                 aria-expanded="false"
+                                 aria-controls="changeNameCollapse">
+                                <h6 class="mb-0 me-4 text-primary" style="font-size: 18px;">Change Password</h6>
+                                <i class="bi-pencil-square icon-change"></i>
+                            </div>
+                            <div class="row pb-2">
+                                <div class="collapse" id="changePasswordCollapse">
+                                    <form class="form" id="form-change-password">
+                                        <div class="form-group mandatory">
+                                            <label for="current-password" class="form-label">Current Password</label>
+                                            <input type="password"
+                                                   id="current-password"
+                                                   class="form-control form-control-lg"
+                                                   placeholder="Current Password"
+                                                   name="current-password" />
+                                        </div>
+
+                                        <div class="form-group mandatory">
+                                            <label for="new-password" class="form-label">New Password</label>
+                                            <input type="password"
+                                                   id="new-password"
+                                                   class="form-control form-control-lg"
+                                                   placeholder="New Password"
+                                                   name="new-password" />
+                                        </div>
+
+                                        <div class="form-group mandatory">
+                                            <label for="confirm-password" class="form-label">Confirm Password</label>
+                                            <input type="password"
+                                                   id="confirm-password"
+                                                   class="form-control form-control-lg"
+                                                   placeholder="Confirm Password"
+                                                   name="confirm-password" />
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 d-flex justify-content-end">
+                                                <button disabled id="save-form-change-password" type="submit" class="btn btn-primary me-1 mb-1">Save</button>
+                                                <button type="reset" id="cancel-form-change-password" class="btn btn-secondary me-1 mb-1"
+                                                        data-bs-toggle="collapse" data-bs-target="#changePasswordCollapse"
+                                                        aria-expanded="false" aria-controls="changeNameCollapse">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade"
+                     id="exampleModalCenter"
+                     tabindex="-1"
+                     role="dialog"
+                     aria-labelledby="exampleModalCenterTitle"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <form id="file-upload-form" class="uploader">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">Upload Avatar</h5>
+                                    <button id="close-change-avatar" type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <input id="file-upload" type="file" accept="image/*" />
+
+                                    <label for="file-upload" id="file-drag">
+                                        <img id="file-image" src="~/uploads/user-avatar/default.jpg" alt="Preview" class="hidden" />
+
+                                        <div id="start">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                            <div>Select a file or drag here</div>
+                                            <div id="notimage" class="hidden">The image file size should be from 1KB to 10 MB and should be the following type file: .png, .jpg, .bmp, .jpeg, maybe transparent background.</div>
+                                            <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
+                                        </div>
+
+                                        <div id="response" class="hidden">
+                                            <div id="messages"></div>
+                                            @*<progress class="progress" id="file-progress" value="0"><span>0</span>%</progress>*@
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button disabled id="submit-change-avatar" type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Save</span>
+                                    </button>
+
+                                    <button type="button" id="cancel-change-avatar" class="btn btn-secondary me-1 mb-1" data-bs-toggle="collapse"
+                                            data-bs-target="#changeAvatar" aria-expanded="false"
+                                            aria-controls="changeAvatar" data-bs-dismiss="modal">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Cancel</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 111111111;">
+    <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="alert mb-0 ">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span id="toast-content">
+            </span>
+        </div>
+    </div>
+</div>
+
+@section Footer{
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/assets/extensions/toastify-js/src/toastify.js"></script>
+    <script src="~/assets/js/pages/profile.js"></script>
+    <script src="~/assets/js/pages/upload-image.js"></script>
+}

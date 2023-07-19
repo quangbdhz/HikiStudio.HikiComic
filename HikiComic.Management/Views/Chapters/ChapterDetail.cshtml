@@ -1,0 +1,104 @@
+﻿@using HikiComic.ViewModels.Chapters;
+
+@model ChapterDetailViewModel;
+
+@{
+    ViewData["Title"] = "Information - " + Model.ChapterName + " - " + ViewBag.ComicName;
+}
+
+@section Header{
+    <link href="~/assets/css/my-style.css" rel="stylesheet" />
+}
+<div>
+    <form class="form" id="form-information-chapter">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Information</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Chapter Name</label>
+                            <label class="form-control form-control-lg">@Model.ChapterName</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">SEO Alias</label>
+                            <label class="form-control form-control-lg">@Model.ChapterSEOAlias</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">View</label>
+                            <label class="form-control form-control-lg">@Model.ViewCount</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label for="chapter-username-created" class="form-label">UserName Created</label>
+                            <label id="chapter-username-created" name="chapter-username-created" class="form-control form-control-lg">@Model.UserNameCreatedBy</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label for="chapter-date-created" class="form-label">Date Created</label>
+                            <label id="chapter-date-created" name="chapter-date-created" class="form-control form-control-lg">@Model.DateCreated.ToString("MM/dd/yyyy hh:mm")</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="chapter-username-updated" class="form-label">UserName Updated</label>
+                            <label id="chapter-username-updated" name="chapter-username-updated" class="form-control form-control-lg">@Model.UserNameUpdatedBy</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="chapter-date-updated" class="form-label">Date Updated</label>
+                            <label id="chapter-date-updated" name="chapter-date-updated" class="form-control form-control-lg">@Model.DateUpdated?.ToString("MM/dd/yyyy hh:mm")</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Chapter Images</label>
+                            <div style="text-align: center;">
+                                @foreach (var item in Model.ChapterImageURLs)
+                                {
+                                    <img data-src="@item" alt="@item" class="chapter-image lazyload">
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer" style=" text-align: left; display: block; margin-bottom: 30px;">
+                <a href="/comic/@Model.ComicSEOAlias" id="submit-information-chapter" class="btn btn-primary" style="width: 70px;">Back</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Footer{
+    @* Include the Intersection Observer polyfill (if used) *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" integrity="sha512-q583ppKrCRc7N5O0n2nzUiJ+suUv7Et1JGels4bXOaMFQcamPk9HjdUknZuuFjBNs7tsMuadge5k9RzdmO+1GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    @* Include the lazy loading script *@
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lazySizes.init();
+        });
+    </script>
+
+
+
+}

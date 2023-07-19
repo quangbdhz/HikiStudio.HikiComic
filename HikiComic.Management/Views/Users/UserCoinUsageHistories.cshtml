@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = ViewBag.UserEmail + " : Coin Usage";
+}
+
+@section Header{
+    <link href="~/assets/extensions/toastify-js/src/toastify.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/jquery.datatables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+}
+
+<div class="page">
+    <!--Page Title-->
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last mb-2"></div>
+            <div class="col-12 col-md-6 order-md-2 order-first  d-flex justify-content-end">
+                <nav aria-label="breadcrumb"
+                     class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            Coin Usage
+                        </li>
+                        <li class="breadcrumb-item active">
+                            @ViewBag.UserEmail
+                        </li>
+                        <li class="breadcrumb-item active">
+                            User Management
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!--Page Content-->
+    <div class="page-content">
+        <section class="section">
+            <div class="card card-page">
+                <div class="card-header">
+                    <div class="d-flex btn-header gap-1">
+                        <input type="text" class="form-control" id="search" placeholder="Search" />
+
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="userCOINUsageHistoriesDatatable" class="table table-bordered dt-responsive nowrap" width="100%" cellspacing="0" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th>Usage Amount (COINS)</th>
+                                <th>Usage Method</th>
+                                <th>Status</th>
+                                <th>Usage Date</th>
+                                <th data-orderable="false">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!--Modal Information Coin Usage -->
+<div class="modal fade text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-information" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <form class="form" id="form-information-coin-usage">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Information Coin Usage </h4>
+                    <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="account-name" class="form-label">Account Name</label>
+                                <label id="account-name" name="account-name" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="usage-amount" class="form-label">Usage Amount (Coins)</label>
+                                <label id="usage-amount" name="usage-amount" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="usage-method-name" class="form-label">Usage Method</label>
+                                <label id="usage-method-name" name="usage-method-name" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="usage-status-name" class="form-label">Usage Status</label>
+                                <label id="usage-status-name" name="usage-status-name" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="usage-date" class="form-label">Usage Date</label>
+                                <label id="usage-date" name="usage-date" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" id="submit-information-coin-usage" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Toast-->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 111111111;">
+    <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="alert mb-0 ">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span id="toast-content"></span>
+        </div>
+    </div>
+</div>
+
+
+@section Footer{
+    <script src="~/assets/extensions/toastify-js/src/toastify.js"></script>
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/datatables/datatables.min.js"></script>
+
+    <script src="~/assets/extensions/datatables/dataTables.select.min.js"></script>
+
+    <script src="~/assets/extensions/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/assets/js/pages/user-coin-usage-histories.js"></script>
+}

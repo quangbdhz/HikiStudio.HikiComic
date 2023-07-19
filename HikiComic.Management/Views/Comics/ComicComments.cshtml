@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = ViewBag.ComicName ?? "";
+}
+
+@section Header{
+    <script src="~/lib/font-awesome/all.min.js"></script>
+}
+
+<section class="gradient-custom">
+    <div class="container my-1 py-1">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12 col-lg-10 col-xl-8">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h4 class="text-center mb-4 pb-2">Comments of Comics</h4>
+
+                        <div class="row">
+                            <div class="col">
+                                <div id="comments">
+                                    <!-- Comments will be dynamically loaded here -->
+                                </div>
+
+                                <div id="pagination">
+                                    <!-- Pagination controls will be dynamically added here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Footer{
+    <script src="~/assets/extensions/toastify-js/src/toastify.js"></script>
+
+    <script src="~/assets/js/pages/comic-comments.js"></script>
+}                                     

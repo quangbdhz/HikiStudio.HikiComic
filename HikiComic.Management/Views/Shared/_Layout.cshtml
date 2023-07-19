@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["title"] - HikiComic</title>
+    <link rel="icon" href="~/hikicomic-logo.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="~/assets/css/main/app.css" />
+    <link rel="stylesheet" href="~/assets/css/main/app-dark.css" />
+    @RenderSection("Header", false)
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+</head>
+
+<body class="theme-dark">
+    <div class="loading-overlay">
+        <div class="loading-icon">
+            <img src="~/assets/images/loading_v2.gif" alt="Loading" />
+        </div>
+    </div>
+
+    <div id="app">
+        <!-- SideBar -->
+        <partial name="PartialViews/_SideBar" />
+        <!-- End SideBar -->
+        <div id="main" class="layout-navbar">
+            <!-- Header -->
+            <partial name="PartialViews/_Header" />
+            <!-- End Header -->
+
+            <div class="loading-overlay">
+                <div class="loading-icon">
+                    <img src="~/assets/images/loading_v2.gif" alt="Loading" />
+                </div>
+            </div>
+
+            <div id="main-content" class="py-0">
+                <!-- Content -->
+                @RenderBody()
+                <!-- End Content -->
+            </div>
+            <!-- Footer -->
+            <footer class="px-4">
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2022 &copy; HikiStudio</p>
+                    </div>
+                    <div class="float-end">
+                        <p>
+                            Crafted with
+                            <span class="text-danger"><i class="bi bi-heart"></i></span> by
+                            <a href="http://hiki.space/">Hiki Team</a>
+                        </p>
+                    </div>
+                </div>
+            </footer>
+            <!-- End Footer -->
+        </div>
+    </div>
+    <script src="~/assets/js/bootstrap.js"></script>
+    <script src="~/assets/js/app.js"></script>
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/js/common.js"></script>
+
+    @RenderSection("Footer", required: false)
+</body>
+</html>

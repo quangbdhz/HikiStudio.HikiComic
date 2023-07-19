@@ -1,0 +1,476 @@
+﻿@using HikiComic.ViewModels.StatisticsReportForAdmins;
+
+@model AdminStatisticsReportViewModel;
+
+@{
+    ViewData["Title"] = "Dashboard";
+
+    int indexReaderDepositCoinByDay = 1;
+    int indexReaderDepositCoinByMonth = 1;
+    int indexReaderDepositCoinByYear = 1;
+
+    int indexReaderUsageCoinByDay = 1;
+    int indexReaderUsageCoinByMonth = 1;
+    int indexReaderUsageCoinByYear = 1;
+
+    int indexTopCreatorMostViewed = 1;
+
+    int year = DateTime.Now.Year;
+}
+
+@section Header{
+    <script src="~/lib/font-awesome/all.min.js"></script>
+    <link href="~/assets/css/my-style.css" rel="stylesheet" />
+    <link href="~/assets/css/shared/iconly.css" rel="stylesheet" />
+    <link href="~/assets/css/widgets/todo.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <!-- Include fusion theme -->
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+}
+
+<section class="section">
+    <div class="row" style="padding-left: 12px;">
+        <div class="col" style="padding-right: 20px; padding-left: 0px;">
+            <div class="card no-margin-bottom">
+                <div class="card-body px-4 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                            <div class="stats-icon blue mb-2">
+                                <i class="fa-solid fa-book" style="color: #1d1d1dcc; font-size: 22px;"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 no-padding">
+                            <h6 class="text-muted font-semibold">
+                                Comics
+                            </h6>
+                            <h6 class="font-extrabold mb-0">@Model.Card.CountComic</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col" style="padding-left: 10px; padding-right: 10px;">
+            <div class="card no-margin-bottom">
+                <div class="card-body px-4 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                            <div class="stats-icon purple mb-2">
+                                <i class="fa-regular fa-tablet" style="font-size: 22px; color: white;"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 no-padding">
+                            <h6 class="text-muted font-semibold">
+                                Chapters
+                            </h6>
+                            <h6 class="font-extrabold mb-0">@Model.Card.CountChapter</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col" style="padding-right: 10px; padding-left: 10px;">
+            <div class="card no-margin-bottom">
+                <div class="card-body px-4 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                            <div class="stats-icon mb-2" style="background: #a44f4f;">
+                                <i class="fa-solid fa-grid-2" style="color: #ffffff; font-size: 22px;"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 no-padding">
+                            <h6 class="text-muted font-semibold">
+                                Genres
+                            </h6>
+                            <h6 class="font-extrabold mb-0">@Model.Card.CountGenre</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col" style="padding-left: 10px; padding-right: 10px;">
+            <div class="card no-margin-bottom">
+                <div class="card-body px-4 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                            <div class="stats-icon mb-2" style="background: #91bb33;">
+                                <i class="fa-regular fa-user-group" style="color: #1d1d1dcc; font-size: 22px;"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 no-padding">
+                            <h6 class="text-muted font-semibold">
+                                Authors
+                            </h6>
+                            <h6 class="font-extrabold mb-0">@Model.Card.CountAuthor</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col" style="padding-left: 10px;">
+            <div class="card no-margin-bottom">
+                <div class="card-body px-4 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                            <div class="stats-icon mb-2" style="background-color: #bdc4b9;">
+                                <i class="fa-solid fa-palette" style="font-size: 22px; color: #950000;"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 no-padding">
+                            <h6 class="text-muted font-semibold">
+                                Artists
+                            </h6>
+                            <h6 class="font-extrabold mb-0">@Model.Card.CountArtist</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header" style="padding-bottom: 5px;">
+                    <h4>Top Reader Usage COIN / VND</h4>
+                </div>
+                <div class="card-body" style="padding-bottom: 10px;">
+                    <ul class="nav nav-tabs" id="tabReaderUsageCoin" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="day-tab-usage-coin" data-bs-toggle="tab" href="#day-usage-coin" role="tab" aria-controls="day-usage-coin" aria-selected="true">Day</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="month-tab-usage-coin" data-bs-toggle="tab" href="#month-usage-coin" role="tab" aria-controls="month-usage-coin" aria-selected="false" tabindex="-1">Month</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="year-tab-usage-coin" data-bs-toggle="tab" href="#year-usage-coin" role="tab" aria-controls="year-usage-coin" aria-selected="false" tabindex="-1">Year</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="tabReaderUsageCoinContent">
+                        <div class="tab-pane fade active show" id="day-usage-coin" role="tabpanel" aria-labelledby="day-tab-usage-coin">
+                            <div class="card">
+                                <div class="card-body no-padding" style=" padding-top: 5px !important; ">
+                                    <ul class="list-group">
+                                        @if (Model.TopReaderUsageCoinByDay.Count > 0)
+                                        {
+                                            @foreach (var item in Model.TopReaderUsageCoinByDay)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        @item.UserName
+                                                    </span>
+                                                    <span class="badge top-@indexReaderUsageCoinByDay badge-pill badge-round ml-1 money-coin">@item.Value.ToString("N0").Replace(",", ".")</span>
+                                                </li>
+
+                                                {
+                                                    indexReaderUsageCoinByDay++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li class="list-group-item d-flex align-items-center justify-content-center">
+                                                <span>No data to display.</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="month-usage-coin" role="tabpanel" aria-labelledby="month-tab-usage-coin">
+                            <div class="card">
+                                <div class="card-body no-padding" style=" padding-top: 5px !important; ">
+                                    <ul class="list-group">
+                                        @if (Model.TopReaderUsageCoinByMonth.Count > 0)
+                                        {
+                                            @foreach (var item in Model.TopReaderUsageCoinByMonth)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        @item.UserName
+                                                    </span>
+                                                    <span class="badge top-@indexReaderUsageCoinByMonth badge-pill badge-round ml-1 money-coin">@item.Value.ToString("N0").Replace(",", ".")</span>
+                                                </li>
+
+                                                {
+                                                    indexReaderUsageCoinByMonth++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li class="list-group-item d-flex align-items-center justify-content-center">
+                                                <span>No data to display.</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="year-usage-coin" role="tabpanel" aria-labelledby="year-tab-usage-coin">
+                            <div class="card">
+                                <div class="card-body no-padding" style=" padding-top: 5px !important; ">
+                                    <ul class="list-group">
+                                        @if (Model.TopReaderUsageCoinByYear.Count > 0)
+                                        {
+                                            @foreach (var item in Model.TopReaderUsageCoinByYear)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        @item.UserName
+                                                    </span>
+                                                    <span class="badge top-@indexReaderUsageCoinByYear badge-pill badge-round ml-1 money-coin">@item.Value.ToString("N0").Replace(",", ".")</span>
+                                                </li>
+
+                                                {
+                                                    indexReaderUsageCoinByYear++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li class="list-group-item d-flex align-items-center justify-content-center">
+                                                <span>No data to display.</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header" style="padding-bottom: 5px;">
+                    <h4>Top Reader Deposit COIN / VND</h4>
+                </div>
+                <div class="card-body" style="padding-bottom: 10px;">
+                    <ul class="nav nav-tabs" id="tabReaderDepositCoin" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="day-tab-deposit-coin" data-bs-toggle="tab" href="#day-deposit-coin" role="tab" aria-controls="day-deposit-coin" aria-selected="true">Day</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="month-tab-deposit-coin" data-bs-toggle="tab" href="#month-deposit-coin" role="tab" aria-controls="month-deposit-coin" aria-selected="false" tabindex="-1">Month</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="year-tab-deposit-coin" data-bs-toggle="tab" href="#year-deposit-coin" role="tab" aria-controls="year-deposit-coin" aria-selected="false" tabindex="-1">Year</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="tabReaderDepositCoinContent">
+                        <div class="tab-pane fade active show" id="day-deposit-coin" role="tabpanel" aria-labelledby="day-tab-deposit-coin">
+                            <div class="card">
+                                <div class="card-body no-padding" style=" padding-top: 5px !important; ">
+                                    <ul class="list-group">
+                                        @if (Model.TopReaderDepositCoinByDay.Count > 0)
+                                        {
+                                            @foreach (var item in Model.TopReaderDepositCoinByDay)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        @item.UserName
+                                                    </span>
+                                                    <span class="badge top-@indexReaderDepositCoinByDay badge-pill badge-round ml-1 money-coin">@item.Value.ToString("N0").Replace(",", ".")</span>
+                                                </li>
+
+                                                {
+                                                    indexReaderDepositCoinByDay++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li class="list-group-item d-flex align-items-center justify-content-center">
+                                                <span>No data to display.</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="month-deposit-coin" role="tabpanel" aria-labelledby="month-tab-deposit-coin">
+                            <div class="card">
+                                <div class="card-body no-padding" style=" padding-top: 5px !important; ">
+                                    <ul class="list-group">
+                                        @if (Model.TopReaderDepositCoinByMonth.Count > 0)
+                                        {
+                                            @foreach (var item in Model.TopReaderDepositCoinByMonth)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        @item.UserName
+                                                    </span>
+                                                    <span class="badge top-@indexReaderDepositCoinByMonth badge-pill badge-round ml-1 money-coin">@item.Value.ToString("N0").Replace(",", ".")</span>
+                                                </li>
+
+                                                {
+                                                    indexReaderDepositCoinByMonth++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li class="list-group-item d-flex align-items-center justify-content-center">
+                                                <span>No data to display.</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="year-deposit-coin" role="tabpanel" aria-labelledby="year-tab-deposit-coin">
+                            <div class="card">
+                                <div class="card-body no-padding" style=" padding-top: 5px !important; ">
+                                    <ul class="list-group">
+                                        @if (Model.TopReaderDepositCoinByYear.Count > 0)
+                                        {
+                                            @foreach (var item in Model.TopReaderDepositCoinByYear)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        @item.UserName
+                                                    </span>
+                                                    <span class="badge top-@indexReaderDepositCoinByYear badge-pill badge-round ml-1 money-coin">@item.Value.ToString("N0").Replace(",", ".")</span>
+                                                </li>
+
+                                                {
+                                                    indexReaderDepositCoinByYear++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li class="list-group-item d-flex align-items-center justify-content-center">
+                                                <span>No data to display.</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="row">
+        <div class="col-12">
+            <div class="row" style="padding-left: 12px; padding-right: 12px;">
+                <div class="card no-padding">
+                    <div class="card-header">
+                        <h4>User Register / Month</h4>
+
+                        <div style="width: auto !important;">
+                            <span style="margin-right: 10px;">Year</span>
+                            <select disabled id="year-register-user" style="width:80px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                @for (int i = year; i >= DateTime.Now.Year; i--)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="chart-register-user" style="display: none;"></div>
+
+                        <div id="message-chart-register-user" style="display: none;" class="empty-data text-center h-100">
+                            <p class="mt-3">No data to display.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" style="padding-bottom: 10px;">
+                    <h4>New Comic / Month</h4>
+
+                    <div style="width: auto !important;">
+                        <span style="margin-right: 10px;">Year</span>
+                        <select disabled id="year-new-comic" style="width:80px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            @for (int i = year; i >= DateTime.Now.Year; i--)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div id="chart-new-comic" style="display: none;"></div>
+
+                    <div id="message-chart-new-comic" style="display: none;" class="empty-data text-center h-100">
+                        <p class="mt-3">No data to display.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="row" style="padding-left: 12px; padding-right: 12px;">
+        <div class="card widget-todo no-padding">
+            <div class="card-header" style="padding-bottom: 0px;">
+                <h4 class="border-bottom" style=" width: 100%; padding-bottom: 15px; ">Top Creators With Many Comic Views</h4>
+            </div>
+
+            <div class="card-body">
+                <ul class="widget-todo-list-wrapper" id="widget-todo-list">
+                    @if (Model.TopCreatorComicMostViewed.Count > 0)
+                    {
+                        @foreach (var item in Model.TopCreatorComicMostViewed)
+                        {
+                            <li class="widget-todo-item">
+                                <div class="widget-todo-title-wrapper d-flex justify-content-between align-items-center mb-50">
+                                    <div class="widget-todo-title-area d-flex align-items-center">
+                                        <i class="fa-solid fa-at" style="color: #f1786a; font-size: 15px; margin-right: 5px;"></i>
+                                        <span class="widget-todo-title ml-50">@item.Email</span>
+                                    </div>
+                                    <div class="widget-todo-item-action d-flex align-items-center">
+                                        <div class="badge top-@indexTopCreatorMostViewed bg-light-success me-1">
+                                            @item.Value
+                                        </div>
+                                        <div class="avatar bg-warning">
+                                            <img src="@item.UserImageURL" alt="" srcset="">
+                                        </div>
+                                        <i class="bx bx-dots-vertical-rounded font-medium-3 cursor-pointer"></i>
+                                    </div>
+                                </div>
+                            </li>
+
+                            {
+                                indexTopCreatorMostViewed++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <li class="list-group-item d-flex align-items-center justify-content-center">
+                            <span>No data to display.</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Footer{
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets/js/pages/dashboard-for-team-member.js"></script>
+}

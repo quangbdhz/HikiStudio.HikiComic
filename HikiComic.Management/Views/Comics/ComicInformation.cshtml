@@ -1,0 +1,206 @@
+﻿@using HikiComic.ViewModels.ComicDetails;
+@model ComicDetailViewModel;
+
+@{
+    ViewData["Title"] = Model.ComicName;
+}
+
+@section Header{
+    <link href="~/assets/css/my-style.css" rel="stylesheet" />
+}
+
+<div>
+    <form class="form" id="form-information-comic-strip">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Information</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Comic Name</label>
+                            <label class="form-control form-control-lg">@Model.ComicName</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">SEO Alias</label>
+                            <label class="form-control form-control-lg">@Model.ComicSEOAlias</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Alternative</label>
+                            <label class="form-control form-control-lg">@Model.Alternative</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Follow</label>
+                            <label class="form-control form-control-lg">@Model.CountFollow</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Status</label>
+                            <label class="form-control form-control-lg">
+                                <span class="badge rounded-pill text-white text-bg-secondary comic-status-@Model.Status.ToLower()">@Model.Status</span>
+                            </label>
+                        </div>
+                    </div>
+
+                   
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">View</label>
+                            <label class="form-control form-control-lg">@Model.ViewCount</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Number of Ratings</label>
+                            <label class="form-control form-control-lg">@Model.CountRating</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Rating</label>
+                            <label class="form-control form-control-lg">@Model.Rating</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Cover Image</label>
+                            <div style=" justify-content: center; display: flex; ">
+                                <img src="@Model.ComicCoverImageURL" alt="cover-image-comic" style="width: 150px;"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Description</label>
+                            <div>
+                                @Html.Raw(Model.Summary)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">SEO Description</label>
+                            <label class="form-control form-control-lg">@Model.ComicSEOSummary</label>
+                        </div>
+                    </div>
+
+                     <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">SEO Title</label>
+                            <label class="form-control form-control-lg">@Model.ComicSEOTitle</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Genres</label>
+                            <label class="form-control form-control-lg">
+                                @foreach(var genre in Model.Genres)
+                                {
+                                    <span class="badge rounded-pill text-white text-bg-secondary">@genre.GenreName</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Authors</label>
+                            <label class="form-control form-control-lg">
+                                @if(Model.Authors.Count == 0)
+                                {
+                                    <span class="badge rounded-pill text-white text-bg-secondary">Updating</span>
+                                }
+                                else
+                                {
+                                    @foreach (var author in Model.Authors)
+                                    {
+                                        <span class="badge rounded-pill text-white text-bg-secondary">@author.AuthorName</span>
+                                    }
+                                }
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Artists</label>
+                            <label class="form-control form-control-lg">
+                                @foreach (var genre in Model.Artists)
+                                {
+                                    <span class="badge rounded-pill text-white text-bg-secondary">@genre.ArtistName</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+
+                     <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label class="form-label">Active</label>
+
+                            <label class="form-control form-control-lg">
+                                @if (!Model.IsDeleted)
+                                {
+                                    <span class="badge rounded-pill text-white text-bg-secondary active-span">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge rounded-pill text-white text-bg-secondary">Inactive</span>
+                                }
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label for="comic-username-created" class="form-label">UserName Created</label>
+                            <label id="comic-username-created" name="comic-username-created" class="form-control form-control-lg">@Model.UserNameCreatedBy</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label for="comic-date-created" class="form-label">Date Created</label>
+                            <label id="comic-date-created" name="comic-date-created" class="form-control form-control-lg">@Model.DateCreated</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="comic-username-updated" class="form-label">UserName Updated</label>
+                            <label id="comic-username-updated" name="comic-username-updated" class="form-control form-control-lg">@Model.UserNameUpdatedBy</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="comic-date-updated" class="form-label">Date Updated</label>
+                            <label id="comic-date-updated" name="comic-date-updated" class="form-control form-control-lg">@Model.DateUpdated</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style=" text-align: left; display: block; margin-bottom: 30px;">
+                <a asp-action="Index" asp-controller="Comics" id="submit-information-comic-strip" class="btn btn-primary" style="width: 70px;">Back</a>
+            </div>
+        </div>
+    </form>
+</div>

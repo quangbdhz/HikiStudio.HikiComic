@@ -1,0 +1,4 @@
+table.dataTable>tbody>tr>.selected{
+    background-color:rgba(13, 110, 253, 0.9);color:white}
+table.dataTable.compact tr.selected td.select-checkbox:after,table.dataTable.compact tr.selected th.select-checkbox:after{margin-top:-16px}div.dataTables_wrapper span.select-info,div.dataTables_wrapper span.select-item{margin-left:.5em}
+

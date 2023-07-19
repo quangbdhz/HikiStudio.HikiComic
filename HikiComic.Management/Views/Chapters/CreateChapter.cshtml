@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Create Chapter - " + ViewBag.ComicName;
+}
+
+@section Header {
+    <link href="~/assets/css/pages/summernote.css" rel="stylesheet" />
+    <link href="~/assets/extensions/summernote/summernote-lite.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/summernote/summernote-lite.css" rel="stylesheet" />
+}
+
+<div>
+    <form class="form" id="form-create">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label for="chapter-name" class="form-label">Chapter Name</label>
+                            <input type="text" id="chapter-name" autofocus name="chapter-name" class="form-control form-control-lg" placeholder="Chapter Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group mandatory">
+                            <label for="chapter-image" class="form-label">Chapter Image</label>
+
+                            <div class="card-body">
+                                <textarea id="chapter-image" class="form-control"></textarea>
+                                <label id="chapter-image-error" class="is-invalid" for="chapter-image" style="display: none;">Please enter Chapter Image.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a asp-action="Index" asp-controller="Chapters" asp-route-comicSEOAlias="@ViewBag.ComicSEOAlias" class="btn btn-secondary" style="width: 70px;">Back</a>
+                <button type="submit" id="submit-create-chapter" disabled class="btn btn-primary" style="width: 70px;">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<!--Toast-->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 111111111;">
+    <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="alert mb-0 ">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span id="toast-content"></span>
+        </div>
+    </div>
+</div>
+
+@section Footer{
+    <script src="~/assets/extensions/toastify-js/src/toastify.js"></script>
+
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/jquery-validate/jquery.validate.min.js"></script>
+
+    @{
+        var summernoteDescription = new HikiComic.Management.Models.Summernote("#chapter-image") { height = 500 };
+    }
+
+    <partial name="_Summernote" model="summernoteDescription" />
+
+    <script src="~/assets/js/pages/create-chapter.js"></script>
+}

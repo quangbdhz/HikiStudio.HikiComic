@@ -1,0 +1,120 @@
+﻿@{
+    ViewData["Title"] = "Crawl Comics";
+}
+
+
+@section Header{
+    @*<script src="~/lib/fontawesome-pro-6.0.0-alpha3/fontawesome6/pro/js/all.min.js"></script>*@
+    <link href="~/assets/extensions/toastify-js/src/toastify.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/jquery.datatables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="~/assets/css/pages/crawl-comic-strips.css" rel="stylesheet" />
+}
+
+<div class="page">
+    <!--Page Content-->
+    <div class="page-content">
+        <section class="section">
+            <div class="card card-page">
+                <div class="card-header">
+                    <div class="d-flex btn-header gap-1">
+                        <button id="submit-crawl-comic-strips" type="button" class="btn btn-outline-primary text-nowrap icon-left">
+                            <i class="bi bi-download"></i> Get Comics
+                        </button>
+
+                        <input type="text" value="https://mangabtt.com/find-story?status=-1&sort=15&page=1"
+                            aria-label="url" style="max-width: 550px;" class="form-control" id="url-page-crawl-comics" placeholder="URL" />
+
+                        <div class="dropdown">
+                            <button class="btn btn-success dropdown-toggle me-1" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                mangabtt.com
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2" style="">
+                                <a class="dropdown-item" href="#" onclick="changeButtonText(this)">kunmanga.com</a>
+                                <a class="dropdown-item" href="#" onclick="changeButtonText(this)">mangabtt.com</a>
+                                <a class="dropdown-item" href="#" onclick="changeButtonText(this)">manhwaclan.com</a>
+                            </div>
+                        </div>
+
+
+                        <button id="save-comics" type="button" disabled
+                                class="btn btn-outline-danger text-nowrap icon-left">
+                            <i class="bi bi-save2"></i>
+                             Crawl Comics
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="crawlComicsDatatable" class="table table-bordered dt-responsive nowrap" width="100%" cellspacing="0" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th data-orderable="false">
+                                    <input aria-label="checkbox-all" type="checkbox" id="checkbox-all" class="form-check-input bg-secondary" />
+                                </th>
+                                <th>Cover Image</th>
+                                <th>Comic Name</th>
+                                <th>Comic Details</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="card card-page">
+                <div class="card-header">
+                    <div>
+                        <h5 style="margin: 0px;">Crawl Chapters</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="crawlChaptersDatatable" class="table table-bordered dt-responsive nowrap" width="100%" cellspacing="0" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th>Comic Name</th>
+                                <th>Chapter Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+@*https://harimanga.com/manga/?m_orderby=new-manga*@
+@*https://kunmanga.com/manga/page/3/?m_orderby=new-manga*@
+
+<!--Toast-->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 111111111;">
+    <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="alert mb-0 ">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span id="toast-content"></span>
+        </div>
+    </div>
+</div>
+
+@section Footer{
+    <script src="~/assets/extensions/toastify-js/src/toastify.js"></script>
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/datatables/datatables.min.js"></script>
+
+    <script src="~/assets/extensions/datatables/dataTables.select.min.js"></script>
+
+    <script src="~/assets/extensions/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/assets/js/pages/crawl-comics.js"></script>
+}

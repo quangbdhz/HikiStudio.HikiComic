@@ -1,0 +1,250 @@
+﻿@using HikiComic.ViewModels.Artists;
+@using HikiComic.ViewModels.Genres;
+@using HikiComic.ViewModels.Authors;
+@using HikiComic.ViewModels.ComicDetails;
+
+@model ComicDetailViewModel;
+
+@{
+    ViewData["Title"] = Model.ComicName;
+
+    var genres = ViewData["genres"] as List<GenreViewModel>;
+    var authors = ViewData["authors"] as List<AuthorViewModel>;
+    var artists = ViewData["artists"] as List<ArtistViewModel>;
+}
+
+@section Header{
+    <link href="~/assets/extensions/toastify-js/src/toastify.css" rel="stylesheet" />
+    <link href="~/assets/extensions/choices.js/public/assets/styles/choices.css" rel="stylesheet" />
+}
+
+<div>
+    <form class="form" id="form-edit">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label for="comic-name" class="form-label">Name Comic</label>
+                            <input type="text" id="comic-name" value="@Model.ComicName" autofocus name="comic-name" class="form-control form-control-lg" placeholder="Name Comic" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="alternative" class="form-label">Different Name Comic</label>
+                            <input type="text" id="alternative" value="@Model.Alternative" autofocus name="alternative" class="form-control form-control-lg" placeholder="Different Name Comic" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label for="alternative" class="form-label">Status</label>
+
+                            <select class="form-select form-control form-control-lg" id="status-comic">
+                                @if(Model.Status == "New")
+                                {
+
+                                    <option value="1" selected>New</option>
+                                }
+                                else
+                                {
+                                    <option value="1">New</option>
+                                }
+
+                                @if (Model.Status == "Inprocess")
+                                {
+
+                                    <option value="2" selected>Inprocess</option>
+                                }
+                                else
+                                {
+                                    <option value="2">Inprocess</option>
+                                }
+
+                                @if (Model.Status == "Drop")
+                                {
+
+                                    <option value="3" selected>Drop</option>
+                                }
+                                else
+                                {
+                                    <option value="3">Drop</option>
+                                }
+
+                                @if (Model.Status == "Completed")
+                                {
+
+                                    <option value="4" selected>Completed</option>
+                                }
+                                else
+                                {
+                                    <option value="4">Completed</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12" style="display: none;">
+                        <div class="form-group mandatory">
+                            <div>
+                                <textarea id="Summary" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group mandatory">
+                            <label for="comic-cover-image" class="form-label">Comic Cover Image</label>
+
+                            <div>
+                                <textarea id="comic-cover-image">@Model.ComicCoverImageURL</textarea>
+                                <label id="comic-cover-image-error" class="is-invalid" for="comic-cover-image" style="display: none;">Please enter Comic Cover Image.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group mandatory">
+                            <label for="summary" class="form-label">Summary</label>
+
+                            <div>
+                                <textarea id="summary">@Model.Summary</textarea>
+                                <label id="summary-error-required" class="is-invalid" for="summary" style="display: none;">Please enter Summary Comic.</label>
+                                <label id="summary-error-max-min-length" class="is-invalid" for="summary" style="display: none;">Summary Comic must be from 15 to 1000 characters..</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="comic-seo-summary" class="form-label">SEO Summary</label>
+                            <input type="text" id="comic-seo-summary" value="@Model.ComicSEOSummary" autofocus name="comic-seo-summary" class="form-control form-control-lg" placeholder="SEO Summary" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="comic-seo-title" class="form-label">SEO Title</label>
+                            <input type="text" id="comic-seo-title" value="@Model.ComicSEOTitle" autofocus name="comic-seo-title" class="form-control form-control-lg" placeholder="SEO Summary" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label for="genres" class="form-label">Genres</label>
+
+                            <div class="form-group mandatory set-genre-for-comic" id="div-select-genre">
+                                <select id="select-genre" name="select-genre" multiple="multiple">
+                                    <option value="" hidden style="font-size:14px">Genre</option>
+
+                                    @if (genres != null)
+                                    {
+                                        @foreach (var item in genres)
+                                        {
+                                            <option value="@item.GenreId">@item.GenreName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <style>
+                                div.choices {
+                                    margin-bottom: 0 !important;
+                                }
+                            </style>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label for="authors" class="form-label">Authors</label>
+
+                            <div class="form-group mandatory edit-author" id="div-select-author">
+                                <select id="select-author" name="select-author" multiple="multiple">
+                                    <option value="" hidden style="font-size:14px">Author</option>
+
+                                    @if (authors != null)
+                                    {
+                                        @foreach (var item in authors)
+                                        {
+                                            <option value="@item.AuthorId">@item.AuthorName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <style>
+                                div.choices {
+                                    margin-bottom: 0 !important;
+                                }
+                            </style>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mandatory">
+                            <label for="artists" class="form-label">Artists</label>
+
+                            <div class="form-group mandatory edit-artist" id="div-select-artist">
+                                <select id="select-artist" name="select-artist" multiple="multiple">
+                                    <option value="" hidden style="font-size:14px">Artist</option>
+
+                                    @if (artists != null)
+                                    {
+                                        @foreach (var item in artists)
+                                        {
+                                            <option value="@item.ArtistId">@item.ArtistName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <style>
+                                div.choices {
+                                    margin-bottom: 0 !important;
+                                }
+                            </style>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a asp-action="Index" asp-controller="Comics" class="btn btn-secondary" style="width: 70px;">Back</a>
+                <button type="submit" id="submit-update-comic" disabled class="btn btn-primary" style="width: 70px;">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!--Toast-->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 111111111;">
+    <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="alert mb-0 ">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span id="toast-content"></span>
+        </div>
+    </div>
+</div>
+
+
+@section Footer{
+    <script src="~/assets/extensions/toastify-js/src/toastify.js"></script>
+
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/jquery-validate/jquery.validate.min.js"></script>
+
+    <script src="~/assets/extensions/tinymce/tinymce.min.js"></script>
+    <script src="~/assets/js/pages/tinymce.js"></script>
+    <script src="~/assets/js/pages/tinymce-elfinder.js"></script>
+
+    <script src="~/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
+    <script src="~/assets/js/pages/form-element-select.js"></script>
+
+    @{
+        var summernoteSummary = new HikiComic.Management.Models.Summernote("#Summary") { height = 1 };
+    }
+    <partial name="_Summernote" model="summernoteSummary" />
+
+    <script src="~/assets/js/pages/update-comic.js"></script>
+}

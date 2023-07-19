@@ -1,0 +1,222 @@
+﻿@using HikiComic.ViewModels.Statistics;
+
+@model StatisticsDashboardViewModel;
+
+@{
+    ViewData["Title"] = "Dashboard";
+    int year = DateTime.Now.Year;
+}
+
+@section Header{
+    <script src="~/lib/font-awesome/all.min.js"></script>
+    <link href="~/assets/css/my-style.css" rel="stylesheet" />
+}
+
+<div class="page-content">
+    <section class="section">
+        <div class="row" style="padding-left: 12px;">
+            <div class="col" style="padding-left: 0px; padding-right: 10px;">
+                <div class="card">
+                    <div class="card-body px-4 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                                <div class="stats-icon blue mb-2">
+                                    <i class="fa-regular fa-user" style="font-size: 22px; color: white;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                <h6 class="text-muted font-semibold">
+                                    Users
+                                </h6>
+                                <h6 class="font-extrabold mb-0">@Model.NumberOfUsers</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col" style="padding-left: 10px; padding-right: 10px;">
+                <div class="card">
+                    <div class="card-body px-4 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                                <div class="stats-icon purple mb-2">
+                                    <i class="fa-regular fa-book-open" style="font-size: 22px; color: white;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                <h6 class="text-muted font-semibold">
+                                    Comics
+                                </h6>
+                                <h6 class="font-extrabold mb-0">@Model.NumberOfComics</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col" style="padding-left: 10px; padding-right: 10px;">
+                <div class="card">
+                    <div class="card-body px-4 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                                <div class="stats-icon green mb-2">
+                                    <i class="fa-regular fa-rectangle-list" style="font-size: 22px; color: white;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                <h6 class="text-muted font-semibold">
+                                    Chapters
+                                </h6>
+                                <h6 class="font-extrabold mb-0">@Model.NumberOfChapters</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col" style="padding-left: 10px; padding-right: 10px;">
+                <div class="card">
+                    <div class="card-body px-4 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                                <div class="stats-icon red mb-2">
+                                    <i class="fa-regular fa-tags" style="font-size: 22px; color: white;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                <h6 class="text-muted font-semibold">
+                                    Categories
+                                </h6>
+                                <h6 class="font-extrabold mb-0">@Model.NumberOfGenres</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col" style="padding-left: 10px;">
+                <div class="card">
+                    <div class="card-body px-4 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                                <div class="stats-icon mb-2" style="background: #dcac18;">
+                                    <i class="fa-regular fa-pen-clip" style="font-size: 22px; color: white;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                <h6 class="text-muted font-semibold">
+                                    Authors
+                                </h6>
+                                <h6 class="font-extrabold mb-0">@Model.NumberOfAuthors</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="row" style="padding-left: 12px;">
+            <div class="col-12 col-lg-9">
+                <div class="row" style="padding-right: 10px;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>User Register / Month</h4>
+
+                            <div style="width: auto !important;">
+                                <span style="margin-right: 10px;">Year</span>
+                                <select disabled id="year-register-user" style="width:80px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                    @for (int i = year; i >= 2021; i--)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-register-user" style="display: none;"></div>
+
+                            <div id="message-chart-register-user" style="display: none;" class="empty-data text-center h-100">
+                                <p class="mt-3">No data to display.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-right: 10px;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>New Comic Strip / Month</h4>
+
+                            <div style="width: auto !important;">
+                                <span style="margin-right: 10px;">Year</span>
+                                <select disabled id="year-new-comic-strip" style="width:80px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                    @for (int i = year; i >= 2021; i--)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div id="chart-new-comic-strip" style="display: none;"></div>
+
+                            <div id="message-chart-new-comic-strip" style="display: none;" class="empty-data text-center h-100">
+                                <p class="mt-3">No data to display.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Group Age</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="chart-group-age"></div>
+
+                        <div id="message-chart-age" style="display: none;" class="empty-data text-center h-100">
+                            <p class="mt-3">No data to display.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Top 5 Comic Strips</h4>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var item in Model.Top5ComicMostViews)
+                        {
+                            <div class="recent-message d-flex">
+                                <div class="name" style="width: 70px; display: flex; align-items: center;">
+                                    <h6 style="width: 70px; margin: 0px;">@item.ViewCount</h6>
+                                </div>
+
+                                <div class="name">
+                                    <h6 class="text-muted mb-0" style="margin: 0px;">@item.ComicName</h6>
+                                </div>
+                            </div>
+
+                            <hr />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Footer{
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets/js/pages/dashboard-chart.js"></script>
+
+}

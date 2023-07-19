@@ -1,0 +1,285 @@
+﻿@using HikiComic.Management.Extensions;
+@using HikiComic.ViewModels.Users;
+
+@{
+    var user = Context.Session.Get<UserSession>("CurrentUser");
+    ViewData["Title"] = "Creator Request";
+}
+
+@section Header{
+    <link href="~/assets/extensions/toastify-js/src/toastify.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/jquery.datatables.min.css" rel="stylesheet" />
+    <link href="~/assets/css/my-style.css" rel="stylesheet" />
+    <script src="~/lib/font-awesome/all.min.js"></script>
+}
+
+<div class="page">
+    <!--Page Title-->
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last mb-2">
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first  d-flex justify-content-end">
+                <nav aria-label="breadcrumb"
+                     class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            @ViewData["Title"]
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Creator Request Management
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!--Page Content-->
+    <div class="page-content">
+        <section class="section">
+            <div class="card card-page">
+                <div class="card-header">
+                    <div class="d-flex btn-header gap-1">
+                        <input type="text" class="form-control" id="search"
+                               placeholder="Search" />
+
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="creatorRequestsDatatable" class="table table-bordered dt-responsive nowrap" width="100%" cellspacing="0" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th data-orderable="false">
+                                    <input type="checkbox" id="checkbox-all" class="form-check-input bg-secondary" />
+                                </th>
+                                <th>Email</th>
+                                <th>PhoneNumber</th>
+                                <th>Status</th>
+                                <th>Date Created</th>
+                                <th>Active</th>
+                                <th data-orderable="false">
+                                    Behavior
+                                </th>
+                                <th data-orderable="false">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!--Modal Approve-->
+<div class="modal text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-approve"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Approve Creator </h5>
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="fa-sharp fa-regular fa-circle-check" style="color: #18cd4e; font-size: 30px;"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">Are you sure you want to accept <span id="approve-email"></span> request?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submit-approve" class="btn btn-primary">OK</button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <span class="d-none d-sm-block">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Exchange-->
+<div class="modal text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-exchange"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document" style="min-width: 700px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="email-creator">AAAA</h5>
+                <button id="modal-exchange-close" type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <section id="frame-exchange" class="modal-body">
+                <div class="container">
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-12">
+                            <div class="card" id="chat1" style="border-radius: 15px;">
+                                <div id="box-exchanges">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <div class="modal-footer">
+                <div class="card-footer text-muted d-flex justify-content-start align-items-center" style="width: 100%;">
+                    @if (!String.IsNullOrEmpty(user?.URLImageUser))
+                    {
+                        <img class="avatar-circle" style="width: 40px; height: auto;" src="@user.URLImageUser" />
+                    }
+                    else
+                    {
+                        <img class="avatar-circle" style="width: 40px; height: auto;" src="~/uploads/user-avatar/default.jpg" />
+                    }
+
+                    <input type="text" class="form-control" id="my-message" placeholder="Type message" style="margin: 0 5px;">
+
+                    <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
+                    <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
+                    <a class="ms-3" id="send-message" href="javascript:void(0)"><i class="fas fa-paper-plane"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Reject-->
+<div class="modal text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-reject"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reject Creator </h5>
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">Are you sure you want to reject <span id="rejected-email"></span> request?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submit-reject" class="btn btn-primary">OK</button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <span class="d-none d-sm-block">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Information Artist -->
+<div class="modal fade text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-information" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <form class="form" id="form-information-artist">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Information Artist </h4>
+                    <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="creator-email" class="form-label">Email</label>
+                                <label id="creator-email" name="creator-email" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="creator-username" class="form-label">Username</label>
+                                <label id="creator-username" name="creator-phone-number" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="creator-first-name" class="form-label">First Name</label>
+                                <label id="creator-first-name" name="creator-first-name" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="creator-last-name" class="form-label">Last Name</label>
+                                <label id="creator-last-name" name="creator-last-name" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="creator-phone-number" class="form-label">Phone Number</label>
+                                <label id="creator-phone-number" name="creator-phone-number" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="creator-status" class="form-label">Status</label>
+                                <label id="creator-status" name="creator-status" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="creator-is-deleted" class="form-label">Active</label>
+                                <label id="creator-is-deleted" name="creator-is-deleted" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mandatory">
+                                <label for="creator-date-created" class="form-label">Date Created</label>
+                                <label id="creator-date-created" name="creator-date-created" class="form-control form-control-lg"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" id="submit-information-genre" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--Toast-->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 111111111;">
+    <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="alert mb-0 ">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span id="toast-content"></span>
+        </div>
+    </div>
+</div>
+
+@section Footer{
+    <script src="~/assets/extensions/toastify-js/src/toastify.js"></script>
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/datatables/datatables.min.js"></script>
+
+    <script src="~/assets/extensions/datatables/dataTables.select.min.js"></script>
+
+    <script src="~/assets/extensions/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/assets/js/pages/creator-requests.js"></script>
+}

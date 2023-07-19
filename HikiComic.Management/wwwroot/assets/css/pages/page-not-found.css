@@ -1,0 +1,160 @@
+﻿* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#notfound {
+    position: relative;
+    height: 100vh;
+}
+
+    #notfound .notfound {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+.notfound {
+    max-width: 520px;
+    width: 100%;
+    line-height: 1.4;
+    text-align: center;
+}
+
+    .notfound .notfound-404 {
+        position: relative;
+        height: 240px;
+    }
+
+        .notfound .notfound-404 h1 {
+            font-family: 'Montserrat', sans-serif;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            font-size: 252px;
+            font-weight: 900;
+            margin: 0px;
+            color: #262626;
+            text-transform: uppercase;
+            letter-spacing: -40px;
+            margin-left: -20px;
+        }
+
+            .notfound .notfound-404 h1 > span {
+                text-shadow: -8px 0px 0px #fff;
+            }
+
+        .notfound .notfound-404 h3 {
+            font-family: 'Cabin', sans-serif;
+            position: relative;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #262626;
+            margin: 0px;
+            letter-spacing: 3px;
+            padding-left: 6px;
+        }
+
+    .notfound h2 {
+        font-family: 'Cabin', sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: #000;
+        margin-top: 0px;
+        margin-bottom: 25px;
+    }
+
+@media only screen and (max-width: 767px) {
+    .notfound .notfound-404 {
+        height: 200px;
+    }
+
+        .notfound .notfound-404 h1 {
+            font-size: 200px;
+        }
+}
+
+@media only screen and (max-width: 480px) {
+    .notfound .notfound-404 {
+        height: 162px;
+    }
+
+        .notfound .notfound-404 h1 {
+            font-size: 162px;
+            height: 150px;
+            line-height: 162px;
+        }
+
+    .notfound h2 {
+        font-size: 16px;
+    }
+}
+
+
+.button-50 {
+    font-family: 'Cabin', sans-serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    appearance: button;
+    background-color: #000;
+    background-image: none;
+    border: 1px solid #000;
+    border-radius: 4px;
+    box-shadow: #fff 4px 4px 0 0,#000 4px 4px 0 1px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 0 5px 10px 0;
+    overflow: visible;
+    padding: 12px 40px;
+    text-align: center;
+    text-transform: none;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.button-50:focus {
+    text-decoration: none;
+}
+
+.button-50:hover {
+    text-decoration: none;
+}
+
+.button-50:active {
+    box-shadow: rgba(0, 0, 0, .125) 0 3px 5px inset;
+    outline: 0;
+}
+
+.button-50:not([disabled]):active {
+    box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+    transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+    .button-50 {
+        padding: 12px 50px;
+    }
+}

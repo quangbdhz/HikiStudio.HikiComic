@@ -1,0 +1,108 @@
+﻿@model HikiComic.Management.Models.Summernote
+
+@if (Model.LoadLibrary)
+{
+    <script src="~/lib/summernote/summernote-bs4.min.js"></script>
+    @*<link rel="stylesheet" href="~/lib/summernote/summernote-bs4.min.css" />*@
+
+    @*<link rel="stylesheet" href="~/lib/jqueryui/themes/base/theme.css" />*@
+
+    <script src="~/lib/font-awesome/all.min.js"></script>
+    <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="~/lib/elfinder/css/theme.min.css" />
+    <link rel="stylesheet" href="~/lib/elfinder/css/elfinder.full.css" />
+    <link rel="stylesheet" href="~/assets/css/extensions/summernote-theme-dark.css"/>
+
+    <script src="~/assets/extensions/summernote/summernote-lite.min.js"></script>
+    <script src="~/assets/js/pages/summernote.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+    <script src="~/lib/elfinder/js/elfinder.min.js"></script>
+}
+
+<script>
+    (function (factory) {
+        if (typeof define === 'function' && define.amd) {
+            define(['jquery'], factory);
+        }
+        else if (typeof module === 'object' && module.exports) {
+            module.exports = factory(require('jquery'));
+        } else {
+            factory(window.jQuery);
+        }
+    }(function ($) {
+        $.extend($.summernote.plugins, {
+            'elfinder': function (context) {
+                var self = this;
+                var ui = $.summernote.ui;
+
+                context.memo('button.elfinder', function () {
+                    var button = ui.button({
+                        contents: '<i class="note-icon-picture"></i> elfinder',
+                        tooltip: 'File Management',
+                        click: function () {
+                            // Open the elFinder dialog for multiple file selection
+                            elfinderDialog(context);
+                        }
+                    });
+
+                    var $elfinder = button.render();
+                    return $elfinder;
+                });
+
+                this.destroy = function () {
+                    this.$panel.remove();
+                    this.$panel = null;
+                };
+            }
+        });
+    }));
+
+    function elfinderDialog(editor) {
+        var fm = $('<div/>').dialogelfinder({
+            baseUrl: "@Url.Content("~/lib/elfinder/")",
+            url: "@Url.Action("Connector", "FileManager")",
+            lang: 'vi',
+            width: 840,
+            height: 450,
+            destroyOnClose: true,
+            getFileCallback: function (files, fm) {
+                // Iterate through the selected files and insert them into the editor
+                $.each(files, function (index, file) {
+                    var $image = $('<img>').attr('src', file.url);
+                    $image.css('width', '350px');
+                    var $br = $('<br>');
+                    var $container = $('<div>').append($image, $br);
+                    editor.invoke('editor.insertNode', $container[0]);
+                });
+                CheckEnableSaveChange();
+            },
+            commandsOptions: {
+                getfile: {
+                    oncomplete: 'close',
+                    multiple: true, // Allow multiple file selection
+                    folders: false
+                }
+            }
+        }).dialogelfinder('instance');
+    }
+
+    $(document).ready(function () {
+        $('@Model.IDEditor').summernote({
+            height: @Model.height,
+            toolbar: @Html.Raw(Model.toolbar),
+
+            callbacks: {
+                onInit: function () {
+                    var editor = $('@Model.IDEditor').siblings('.note-editor').find('.note-editable');
+                    editor.on('click', function () {
+                        CheckEnableSaveChange();
+                    });
+                    editor.on('keyup', function (e) {
+                        CheckEnableSaveChange();
+                    });
+                }
+            }
+        });
+    });
+
+</script>

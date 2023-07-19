@@ -1,0 +1,281 @@
+﻿@{
+    ViewData["Title"] = ViewBag.ComicName;
+}
+
+@section Header{
+    <link href="~/assets/extensions/toastify-js/src/toastify.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
+    <link href="~/assets/extensions/datatables.net-bs5/css/jquery.datatables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+}
+
+<div class="page">
+    <!--Page Title-->
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last mb-2">
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first  d-flex justify-content-end">
+                <nav aria-label="breadcrumb"
+                     class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        @if (ViewData["Title"]?.ToString()?.Length <= 30)
+                        {
+                            <li class="breadcrumb-item">
+                                @ViewData["Title"]
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="breadcrumb-item">
+                                @ViewData["Title"]?.ToString()?.Substring(0, 30)...
+                            </li>
+                        }
+                        <li class="breadcrumb-item active">
+                            Chapters
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Chapter Management
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!--Page Content-->
+    <div class="page-content">
+        <section class="section">
+            <div class="card card-page">
+                <div class="card-header">
+                    <div class="d-flex btn-header gap-1">
+                        <input type="text" class="form-control" id="search"
+                               placeholder="Search" />
+
+                        <a href="/comic/@ViewBag.ComicSEOAlias/create-chapter"
+                            id="btn-create" class="btn btn-outline-primary text-nowrap icon-left">
+                            <i class="bi bi-plus-lg"></i>Create Chapter
+                        </a>
+
+                        <button data-bs-toggle="modal"
+                                data-bs-title="Delete selected lines"
+                                id="btn-deletecheckall" disabled
+                                data-bs-target="#modal-delete-multiple"
+                                class="btn btn-outline-danger text-nowrap icon-left">
+                            <i class="bi bi-trash"></i>
+                            Delete All
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="chaptersDatatable" class="table table-bordered dt-responsive nowrap" width="100%" cellspacing="0" style="text-align: center">
+                        <thead>
+                            <tr>
+                                <th data-orderable="false">
+                                    <input type="checkbox" id="checkbox-all" class="form-check-input bg-secondary" />
+                                </th>
+                                <th>Chapter Name</th>
+                                <th>View</th>
+                                <th>Date Created</th>
+                                <th data-orderable="false">Status</th>
+                                <th>Active</th>
+                                <th data-orderable="false">
+                                    Behavior
+                                </th>
+                                <th data-orderable="false">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!--Modal Delete In Line-->
+<div class="modal text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-delete"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Chapter</h5>
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">Are you sure that you want to delete <span id="name-chapter-delete-in-line"></span>?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="btn-delete" class="btn btn-primary">OK</button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <span class="d-none d-sm-block">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Delete multiple-->
+<div class="modal modal-delete text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-delete-multiple" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete multiple Chapters</h5>
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">Are you sure that you want to delete the selected Chapter(s)?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="delete-with-checkbox" data-bs-dismiss="modal">
+                    <i class="bi bi-trash d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">OK</span>
+                </button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <i class="bi bi-x d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Restore Author-->
+<div class="modal text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-restore" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Restore Chapter Comic</h5>
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">Are you sure you want to restore <span id="name-chapter-restore"></span>?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submit-restore-chapter" class="btn btn-primary">OK</button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <span class="d-none d-sm-block">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Approve-->
+<div class="modal text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-approve"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Approve Comic</h5>
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="fa-sharp fa-regular fa-circle-check" style="color: #18cd4e; font-size: 30px;"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">Are you sure you want to accept <span id="approve-chapter-name"></span> request?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submit-approve" class="btn btn-primary">OK</button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <span class="d-none d-sm-block">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Reject-->
+<div class="modal text-left" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-reject"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reject Comic</h5>
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-modal">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">Are you sure you want to reject <span id="rejected-chapter-name"></span> request?</p>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top: 5px;">
+                    <div class="col-md-12">
+                        <div class="form-group mandatory">
+                            <input type="text" id="reject-feedback" autofocus name="reject-feedback" class="form-control form-control-lg" placeholder="Feedback" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submit-reject" class="btn btn-primary">OK</button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    <span class="d-none d-sm-block">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Toast-->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 111111111;">
+    <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="alert mb-0 ">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span id="toast-content"></span>
+        </div>
+    </div>
+</div>
+
+@section Footer{
+    <script src="~/assets/extensions/toastify-js/src/toastify.js"></script>
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/datatables/datatables.min.js"></script>
+
+    <script src="~/assets/extensions/datatables/dataTables.select.min.js"></script>
+
+    <script src="~/assets/extensions/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/assets/js/pages/chapters.js"></script>
+}

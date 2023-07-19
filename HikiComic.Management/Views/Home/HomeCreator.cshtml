@@ -1,0 +1,301 @@
+﻿@using HikiComic.ViewModels.StatisticsReportForCreators;
+
+@model CreatorStatisticsReportViewModel;
+
+@{
+    ViewData["Title"] = "Dashboard";
+    int indexComicViewed = 1;
+    int indexComicFollowed = 1;
+    int indexTopUser = 1;
+}
+
+@section Header{
+    <script src="~/lib/font-awesome/all.min.js"></script>
+    <link href="~/assets/css/my-style.css" rel="stylesheet" />
+    <link href="~/assets/css/shared/iconly.css" rel="stylesheet" />
+    <link href="~/assets/css/widgets/todo.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <!-- Include fusion theme -->
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+}
+
+<div class="page-content">
+    <section class="section">
+        <div class="row" style="padding-left: 12px;">
+            <div class="col" style="padding-left: 0px; padding-right: 10px;">
+                <div class="card">
+                    <div class="card-body px-4 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                                <div class="stats-icon blue mb-2">
+                                    <i class="fa-solid fa-book" style="color: #1d1d1dcc; font-size: 22px;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 no-padding">
+                                <h6 class="text-muted font-semibold">
+                                    Comics
+                                </h6>
+                                <h6 class="font-extrabold mb-0">@Model.Card.CountComic</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col" style="padding-left: 10px; padding-right: 10px;">
+                <div class="card">
+                    <div class="card-body px-4 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                                <div class="stats-icon purple mb-2">
+                                    <i class="fa-regular fa-tablet" style="font-size: 22px; color: white;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 no-padding">
+                                <h6 class="text-muted font-semibold">
+                                    Chapters
+                                </h6>
+                                <h6 class="font-extrabold mb-0">@Model.Card.CountChapter</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col" style="padding-left: 10px; padding-right: 10px;">
+                <div class="card">
+                    <div class="card-body px-4 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                                <div class="stats-icon red mb-2">
+                                    <i class="iconly-boldBookmark" style="font-size: 22px;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 no-padding">
+                                <h6 class="text-muted font-semibold">
+                                    Followed
+                                </h6>
+                                <h6 class="font-extrabold mb-0">@Model.Card.CountFollowed</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col" style="padding-left: 10px;">
+                <div class="card">
+                    <div class="card-body px-4 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                                <div class="stats-icon mb-2" style="background: #48d8ae;">
+                                    <i class="iconly-boldShow" style="font-size: 22px; color: navy;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 no-padding">
+                                <h6 class="text-muted font-semibold">
+                                    Viewed
+                                </h6>
+                                <h6 class="font-extrabold mb-0">@Model.Card.TotalViewed</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col" style="padding-left: 10px;">
+                <div class="card">
+                    <div class="card-body px-4 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start">
+                                <div class="stats-icon mb-2" style="background: #ffffff;">
+                                    <i class="fa-duotone fa-coins" style="--fa-primary-color: #ff7b00; --fa-secondary-color: #3e8972; --fa-secondary-opacity: 1; font-size: 22px;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 no-padding">
+                                <h6 class="text-muted font-semibold">
+                                    Revenue
+                                </h6>
+                                <h6 class="font-extrabold mb-0">@Model.Card.TotalRevenue</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="row" style="padding-left: 12px;">
+            <div class="col-12 col-lg-8">
+                <div class="row" style="padding-right: 10px;">
+                    <div class="card">
+                        <div class="card-header" style="padding-bottom: 10px;">
+                            <h4>Revenue</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="day-tab" data-bs-toggle="tab" href="#day" role="tab" aria-controls="day" aria-selected="true">Day</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="month-tab" data-bs-toggle="tab" href="#month" role="tab" aria-controls="month" aria-selected="false" tabindex="-1">Month</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="year-tab" data-bs-toggle="tab" href="#year" role="tab" aria-controls="year" aria-selected="false" tabindex="-1">Year</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade active show" id="day" role="tabpanel" aria-labelledby="day-tab">
+                                    <div id="chart-container-revenue-day"></div>
+                                </div>
+                                <div class="tab-pane fade" id="month" role="tabpanel" aria-labelledby="month-tab">
+                                    <div id="chart-container-revenue-month"></div>
+                                </div>
+                                <div class="tab-pane fade" id="year" role="tabpanel" aria-labelledby="year-tab">
+                                    <div id="chart-container-revenue-year"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-right: 10px;">
+                    <div class="card widget-todo">
+                        <div class="card-header" style="padding-bottom: 0px;">
+                            <h4 class="border-bottom" style=" width: 100%; padding-bottom: 15px; ">Top Users / COINS</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <ul class="widget-todo-list-wrapper" id="widget-todo-list">
+                                @if(Model.TopUserBuyComics.TopComics.Count > 0)
+                                {
+                                    @foreach (var item in Model.TopUserBuyComics.TopComics)
+                                    {
+                                        <li class="widget-todo-item">
+                                            <div class="widget-todo-title-wrapper d-flex justify-content-between align-items-center mb-50">
+                                                <div class="widget-todo-title-area d-flex align-items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list cursor-move"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+
+                                                    <span class="widget-todo-title ml-50">@item.ComicName</span>
+                                                </div>
+                                                <div class="widget-todo-item-action d-flex align-items-center">
+                                                    <div class="badge top-@indexTopUser bg-light-success me-1">
+                                                        @item.Count
+                                                    </div>
+                                                    <div class="avatar bg-warning">
+                                                        <img src="@item.ComicSEOAlias" alt="" srcset="">
+                                                    </div>
+                                                    <i class="bx bx-dots-vertical-rounded font-medium-3 cursor-pointer"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        {
+                                            indexTopUser++;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <li class="list-group-item d-flex align-items-center justify-content-center">
+                                        <span>No data to display.</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <div class="card">
+                    <div class="card-header" style="padding-bottom: 10px;">
+                        <h4>Comic Most Viewed / View</h4>
+                    </div>
+                    
+                    <div class="card-body">
+                        <ul class="list-group">
+                            @if(Model.ComicMostViewed.TopComics.Count > 0)
+                            {
+                                @foreach (var item in Model.ComicMostViewed.TopComics)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>
+                                            <a asp-action="ComicInformation" asp-controller="Comics" asp-route-comicSEOAlias="@item.ComicSEOAlias">@item.ComicName</a>
+                                        </span>
+                                        <span class="badge top-@indexComicViewed badge-pill badge-round ml-1 comic-viewed">@item.Count.ToString("N0").Replace(",", ".")</span>
+                                    </li>
+
+                                    {
+                                        indexComicViewed++;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <li class="list-group-item d-flex align-items-center justify-content-center">
+                                    <span>No data to display.</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="padding-bottom: 10px;">
+                        <h4>Comic Most Followed / Follow</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <ul class="list-group">
+                            @if (Model.ComicMostFollowed.TopComics.Count > 0)
+                            {
+                                @foreach (var item in Model.ComicMostFollowed.TopComics)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>
+                                            <a asp-action="ComicInformation" asp-controller="Comics" asp-route-comicSEOAlias="@item.ComicSEOAlias">@item.ComicName</a>
+                                        </span>
+                                        <span class="badge top-@indexComicFollowed badge-pill badge-round ml-1 comic-viewed">@item.Count.ToString("N0").Replace(",", ".")</span>
+                                    </li>
+
+                                    {
+                                        indexComicFollowed++;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <li class="list-group-item d-flex align-items-center justify-content-center">
+                                    <span>No data to display.</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="row" style="padding-left: 12px;">
+            <div class="card">
+                <div class="card-header" style="padding-bottom: 10px;">
+                    <h4>Created Comics / Month</h4>
+                </div>
+                <div class="card-body">
+                    <div id="chart-container-created-comics"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Footer{
+
+    <script src="~/assets/extensions/jquery/jquery.min.js"></script>
+    <script src="~/assets/extensions/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets/js/pages/dashboard-for-creator.js"></script>
+}
